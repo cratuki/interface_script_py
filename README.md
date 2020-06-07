@@ -3,31 +3,27 @@ Message-oriented data-interchange format.
 
 # Overview
 
-Here is an example of an interface script stream,
+Example of an Interface Script stream,
 ```
+# assert the message vectors
 i person name age
 i org name
 
+# messages
 person Jane 34
 person Steve 33
-org "Piccadilly Steamship Company" # Hash means comment
-org "Feather's Roundabout Players"
+org "Piccadilly Steamship Company"
+org "Victoria Square Consulting"
 ```
 
 The header lines start with 'i'. That is short for 'interface'.
 
-Those lines assert that the sender expects to be able to send messages of that
-form.
+Those header asserts the structure of messages that the sender expects the
+receiver to be able to handle.
 
 The remaining lines are messages of those forms.
 
-An interface script stream does not need to be held in a file. You could send
-it over a network, or a pipe.
-
-
-# Key ideas
-
-## Key idea: Interface Assertions, Pereto Principle
+# Key idea: Interface Assertions, Pereto Principle
 
 Interface Assertion address the most common source of bugs seen in message
 interchange: field mismatch. (This is often caused by version misalignment.)
@@ -35,22 +31,20 @@ interchange: field mismatch. (This is often caused by version misalignment.)
 When there are different assumptions between the sender and receiver, the
 receiver will fail-fast.
 
-## Key idea: All fields are sent as string
+# Key idea: All fields are sent as string
 
 This format forces the receiver to parse away from strings for all fields. For
 this reason, it should be more robust in practice than interchange formats
 which have unenforced typing. (e.g. think of a time when you have received NaN
 in a JSON message, and struggled to work out what was doing on.)
 
-
-# Where you could use it
+# Useful for
 
 Configuration files.
 
 Files being sent between systems.
 
 Bespoke network protocols.
-
 
 # Setup
 
@@ -60,10 +54,15 @@ python3 -B -m venv venv
 python3 -B test_is
 ```
 
-Look in the test module for an example of usage.
+# How to use
+
+Producer: Write strings. The format is simple enough that it does not need a
+library.
+
+Receiver: look in the test module for a parsing use-case and example code.
 
 
-# Errata
+# Details
 
 ## Original Inspiration
 
