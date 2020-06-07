@@ -1,6 +1,5 @@
 Message-oriented data-interchange format.
 
-
 # Overview
 
 Example of an Interface Script stream,
@@ -56,36 +55,58 @@ python3 -B test_is
 
 # How to use
 
-Producer: Write strings. The format is simple enough that it does not need a
-library.
+## Producer
 
-Receiver: look in the test module for a parsing use-case and example code.
+Write strings. The format is simple enough that it does not need a library.
 
+## Receiver
+
+Here is an example of how you would receive the message format defined above.
+Note that we use reflection against the handler. For each message name, you
+need a method `on_message_name`, with fields matching the document structure.
+
+Example parse code,
+```
+import interface_script
+
+DATA = '''
+    # assert the message vectors
+    i person name age
+    i org name
+
+    # messages
+    person Jane 34
+    person Steve 33
+    org "Piccadilly Steamship Company"
+    org "Victoria Square Consulting"
+'''
+
+class Handler:
+
+    def on_person(self, name, age):
+        print("Person: %s/%s"%(name, age))
+
+    def on_org(self, name):
+        print("Org: %s"%(name))
+
+def main():
+    handler = Handler()
+    ob = interface_script.InterfaceScriptParser(handler)
+    ob.parse(DATA)
+
+if __name__ == '__main__':
+    main()
+```
 
 # Details
-
-## Original Inspiration
-
-I was working in a domain where I saw people exchanging documents by email. It
-was a stupid reality of that situation.
-
-A number of simple issues got pushed to developers due to the complex file
-format.
-
-This format allows a larger pool of people to easily support a system. (You
-can give them tools to validate their documents before sending.)
-
-The format turned out to be useful for a far broader range of things than just
-that. It has become my go-to interchange mechanism. For most purposes, I find
-it a better tradeoff than XML, JSON and YAML.
 
 ## Support for other languages
 
 It should be easy to port.
 
-A new consumer for it in something between minutes and hours. The most
-difficult part of writing a consumer is likely to be the line tokeniser. You
-will find business logic for this in `interface_script/parser.py`.
+A new consumer would take somewhere between minutes and hours to write. The
+line tokeniser is fiddly if you do not have a library for it. But you can find
+the logic you need in `interface_script/parser.py`.
 
 ## Newlines and whitespace
 
@@ -148,14 +169,19 @@ validate everything.
 You can create nested data structures by convention. Example,
 ```
 i bookshelf n
-i x/bookshelf
+i x_bookshelf
 i book title publisher
 
 bookshelf 0
     book "Java NIO" "O'Reilly"
     book "Graphics Programming in Turbo C" "Wiley"
-x/bookshelf
+x_bookshelf
 ```
+
+Stick to lower-case characters and the underscore character. Consider that
+your handler will need to be a valid python message name. For example,
+`on_x_bookshelf`.
+
 
 ## Complexity
 

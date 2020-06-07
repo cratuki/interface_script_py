@@ -20,11 +20,15 @@ class LineFinder:
 
 class InterfaceScriptParser(object):
 
-    def __init__(self, cb_interface, cb_signal):
+    def __init__(self, handler):
+        self.handler = handler
+
+        self.signal_consumer = SignalConsumer(
+            handler=self.handler)
         # on_interface(iname, vfields) -> None
-        self.cb_interface = cb_interface
+        self.cb_interface = self.signal_consumer.on_interface
         # on_signal(iname, values) -> None
-        self.cb_signal = cb_signal
+        self.cb_signal = self.signal_consumer.on_signal
 
         self.finder = LineFinder(self._on_line)
         self.interfaces = {}
@@ -84,18 +88,23 @@ class InterfaceScriptParser(object):
 
 
 class SignalConsumer(object):
+
+    def __init__(self, handler):
+        self.handler = handler
+
     def on_interface(self, iname, vfields):
         method_name = 'on_%s'%iname
-        if method_name not in dir(self):
+        if method_name not in dir(self.handler):
             raise Exception('no handler [%s]'%method_name)
-        method = getattr(self, method_name)
+        method = getattr(self.handler, method_name)
         argspec = list(inspect.signature(method).parameters.keys())
         if argspec != vfields:
             raise Exception('inconsistent spec for %s got:%s method:%s'%(
                 iname, str(argspec), str(vfields)))
+
     def on_signal(self, iname, values):
         method_name = 'on_%s'%iname
-        if method_name not in dir(self):
+        if method_name not in dir(self.handler):
             raise Exception('no handler [%s]'%method_name)
-        method = getattr(self, method_name)
+        method = getattr(self.handler, method_name)
         method(*values)
