@@ -179,8 +179,8 @@ x_bookshelf
 ```
 
 Stick to lower-case characters and the underscore character. Consider that
-your handler will need to be a valid python message name. For example,
-`on_x_bookshelf`.
+your handler method will need to have a valid python message name. For
+example, `on_x_bookshelf`.
 
 
 ## Complexity
