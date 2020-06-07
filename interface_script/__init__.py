@@ -11,7 +11,8 @@ class LineFinder:
 
     def accept(self, c):
         if c == '\n':
-            self.cb_line(''.join(self.sb))
+            line = ''.join(self.sb).strip()
+            self.cb_line(line)
             self.sb = []
         else:
             self.sb.append(c)
@@ -35,6 +36,10 @@ class InterfaceScriptParser(object):
     def _on_line(self, line):
         tokens = []
         for t in list(shlex.shlex(line)):
+            # ^ If you are porting this to another language, you will not have
+            # this parsing library available. The business logic you need is
+            # in parser.py.
+            #
             # Strip boundary quotation marks. (shlex leaves them in.)
             if t[0] in ["'", '"']:
                 t = t[1:-1]
