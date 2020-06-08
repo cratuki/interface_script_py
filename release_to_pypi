@@ -1,10 +1,35 @@
 #!/bin/bash
 #
-# TBD: expand this into an expert script.
+# Original plan,
+# https://medium.com/@joel.barmettler/how-to-upload-your-python-package-to-pypi-65edc5fe9c56
+#
+# Steps,
+#
+#   In setup.py
+#
+#       Update VERSION
+#
+#       Update download link
+#
+#   Local git,
+#
+#       Commit+push
+#
+#   On github
+#
+#       Make a new release. Put v in the tag. E.g. "v1.1".
+#
+#   Create package
+#
+#       python setup.py sdist bdist_wheel
+#
+# TBD
+#
+#   1) Work out how to release as a wheel.
+#
+#   2) Expand this into an expert script.
 #
 # You need to do a release on github first, and make some changes to setup.py.
-# Follow,
-# https://medium.com/@joel.barmettler/how-to-upload-your-python-package-to-pypi-65edc5fe9c56
 #
 # Then,
 #   python3 setup.py sdist
