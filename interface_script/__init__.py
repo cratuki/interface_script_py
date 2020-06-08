@@ -1,6 +1,8 @@
 import inspect
 import shlex
 
+from .parser import parse_line_to_tokens
+
 
 class LineFinder:
     "At the end of a line, this triggers a callback."
@@ -38,16 +40,7 @@ class InterfaceScriptParser(object):
             self.finder.accept(c)
 
     def _on_line(self, line):
-        tokens = []
-        for t in list(shlex.shlex(line)):
-            # ^ If you are porting this to another language, you will not have
-            # this parsing library available. The business logic you need is
-            # in parser.py.
-            #
-            # Strip boundary quotation marks. (shlex leaves them in.)
-            if t[0] in ["'", '"']:
-                t = t[1:-1]
-            tokens.append(t)
+        tokens = parse_line_to_tokens(line)
         if not tokens:
             return
         if tokens[0] == 'i':

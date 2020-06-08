@@ -10,3 +10,6 @@
 #   python3 setup.py sdist
 #   twine upload dist/*
 #
+
+echo "Not yet implemented. For the moment, see the comments in this script."
+

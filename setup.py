@@ -1,18 +1,18 @@
 from distutils.core import setup
 
 NAME = 'interface_script'
-VERSION = '1.0'
+VERSION = '1.1'
 
 setup(
   name = NAME,
   packages = [NAME],
   version = VERSION,
-  license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
-  description = 'Message-oriented data-interchange format',   # Give a short description about your library
+  license='MIT',
+  description = 'Message-oriented data-interchange format',
   author = 'Craig Turner',
   author_email = 'cratuki@gmail.com',
   url = 'https://github.com/cratuki/interface_script_py',
-  download_url = 'https://github.com/cratuki/interface_script_py/archive/v1.0.tar.gz',
+  download_url = 'https://github.com/cratuki/interface_script_py/archive/v%s.tar.gz'%(VERSION),
   keywords = ['interchange', 'textual', 'message-driven', 'event-driven'],
   install_requires=[],
   classifiers=[
