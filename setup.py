@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 NAME = 'interface_script'
 VERSION = '1.1'
