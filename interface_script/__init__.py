@@ -1,5 +1,4 @@
 import inspect
-import shlex
 
 from .parser import parse_line_to_tokens
 
@@ -20,7 +19,7 @@ class LineFinder:
             self.sb.append(c)
 
 
-class InterfaceScriptParser(object):
+class InterfaceScriptParser:
 
     def __init__(self, handler):
         self.handler = handler
@@ -80,7 +79,7 @@ class InterfaceScriptParser(object):
         self.cb_signal(iname, values)
 
 
-class SignalConsumer(object):
+class SignalConsumer:
 
     def __init__(self, handler):
         self.handler = handler

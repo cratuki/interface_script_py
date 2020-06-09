@@ -2,6 +2,9 @@ Message-oriented data-interchange format.
 
 # Overview
 
+You can get most of the way to understanding Interface Script if you
+think of it as being like CSV, but able to support more dimensions.
+
 Example of an Interface Script stream,
 ```
 # assert the message vectors
@@ -37,13 +40,20 @@ this reason, it should be more robust in practice than interchange formats
 which have unenforced typing. (e.g. think of a time when you have received NaN
 in a JSON message, and struggled to work out what was doing on.)
 
-# Useful for
+# Quite useful for
 
 Configuration files.
 
 Files being sent between systems.
 
-Bespoke network protocols.
+Flexible, easy-to-implement network protocols.
+
+# Less useful for
+
+If you genuinely need complex tree structures, it's a struggle with Interface
+Script. In that case, you probably need a document-oriented data interchange
+format like XML. (Modest nesting is practicle in IS - see the heading Nesting
+below.)
 
 # Setup
 
@@ -137,32 +147,72 @@ happens in that domain is that you get two thirds of the way through a day,
 and then a message comes through that you don't understand and things start
 crashing.
 
-## Compare to XML
+## Compare to CSV
 
-XML is document-centric. Interface Script is message-centric.
+CSV is message-centric. So is Interface Script.
 
-XML is more verbose.
+CSV is non-trivial to parse due to quotation mark blocks. A skilled developer
+could write a parser inside an hour. All this is also true of Interface
+Script. Their notations are similar.
 
-XML lacks interface assertions.
+CSV can describe up to two dimensions (it is tabular). Interface Script can
+describe an arbitrary number of dimensions.
 
-XML makes tree structure easy. In practice, this if often a source of
-complexity.
+CSV is weakly defined. Some usages involve a header, others skip the header.
+Interafce Script is more strongly defined: you should always declare your
+dimensions.
 
-XML schema is more complicated than interface assertions.
-
-XML has a clear encoding strategy.
+CSV can use its header for the purpose of interface assertions. Interface
+Script is more opinionated: you must declare your vectors, and these
+declarations should be as assertion (and not regarded as an IDL).
 
 ## Compare to JSON
 
 JSON can be document-centric or message-centric. Interface Script is
 message-centric.
 
-JSON is more verbose.
+JSON parsing is more complex than CSV/IS, but a skilled developer could build
+a recursive-descent JSON parser within a day.
+
+JSON is more verbose than Interface Script.
 
 JSON lacks interface assertions.
 
-JSON is somewhat typed. Interface Script is text tokens. The developer should
-validate everything.
+JSON has weak type mechanisms. Interface Script has no type mechanisms.
+
+JSON supports tree structures easily. Interface Script does not.
+
+## Compare to YAML
+
+YAML is document-centric. Interface Script is message-centric.
+
+YAML is harder to parse than JSON.
+
+YAML is more verbose than Interface Script.
+
+YAML lacks interface assertions.
+
+YAML supports custom data types. Interface Script has no type mechanisms.
+
+YAML supports tree structures easily. Interface Script does not.
+
+## Compare to XML
+
+XML is document-centric. Interface Script is message-centric.
+
+XML is complex to parse. Writing a parser to support the full spec might take
+a single developer a couple of years. People often uses subsets of XML. You
+could build a parser to handle the basics inside a day.
+
+XML is verbose, moreso than YAML and JSON.
+
+XML lacks interface assertions.
+
+XML schema is more complicated than interface assertions.
+
+XML has a clear encoding strategy.
+
+XML supports tree structures easily. Interface Script does not.
 
 ## Nesting
 
