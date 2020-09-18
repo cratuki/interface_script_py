@@ -18,12 +18,13 @@ org "Piccadilly Steamship Company"
 org "Victoria Square Consulting"
 ```
 
-The header lines start with 'i'. That is short for 'interface'.
+The header lines start with 'i'. That is short for 'interface'. It declares
+the types of message that the sender things is can send.
 
-Those header asserts the structure of messages that the sender expects the
-receiver to be able to handle.
+The receiver should check that this matches its own assumptions.
 
 The remaining lines are messages of those forms.
+
 
 # Key idea: Interface Assertions, Pereto Principle
 
@@ -52,7 +53,7 @@ Flexible, easy-to-implement network protocols.
 
 If you genuinely need complex tree structures, it's a struggle with Interface
 Script. In that case, you probably need a document-oriented data interchange
-format like XML. (Modest nesting is practicle in IS - see the heading Nesting
+format like XML. (Modest nesting is practical in IS - see the heading Nesting
 below.)
 
 # Setup
@@ -186,7 +187,7 @@ JSON supports tree structures easily. Interface Script does not.
 
 YAML is document-centric. Interface Script is message-centric.
 
-YAML is harder to parse than JSON.
+YAML is harder to parse than JSON, and therefore also harder than IS.
 
 YAML is more verbose than Interface Script.
 
